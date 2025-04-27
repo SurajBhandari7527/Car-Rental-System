@@ -1,0 +1,38 @@
+{% extends "admin_base.html" %}
+{% block title %}Confirm Return – CarRentPro Admin{% endblock %}
+{% block content %}
+<main>
+  <div class="reserve-form">
+    <h2>Confirm Return</h2>
+    <form method="post">
+      <div class="form-group">
+        <label>Customer Email</label>
+        <input type="email" value="{{ email }}" disabled>
+      </div>
+
+      <div class="form-group">
+        <label>Actual Pickup</label>
+        <input type="datetime-local" value="{{ actual_pickup }}" disabled>
+      </div>
+
+      <div class="form-group">
+        <label>Start Odometer</label>
+        <input type="number" value="{{ start_odometer }}" disabled>
+      </div>
+
+      <div class="form-group">
+        <label for="actual_return">Return Date & Time</label>
+        <input id="actual_return" name="actual_return" type="datetime-local" required>
+      </div>
+
+      <div class="form-group">
+        <label for="end_odometer">End Odometer</label>
+        <input id="end_odometer" name="end_odometer" type="number" required>
+      </div>
+
+      <button type="submit" class="btn-green">Confirm Return</button>
+      <a href="{{ url_for('admin_return') }}" class="btn-secondary">Cancel</a>
+    </form>
+  </div>
+</main>
+{% endblock %}

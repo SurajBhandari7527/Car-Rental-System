@@ -1,0 +1,554 @@
+/* =======================
+   Global Reset
+======================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+/* =======================
+   Body & Layout
+======================= */
+body {
+  display: flex;
+  flex-direction: column; /* navbar on top, content below */
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: #333;
+}
+
+/* =======================
+   Navbar
+======================= */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.nav-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2a5298;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.nav-menu li a:hover {
+  color: #2a5298;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #333;
+  border-radius: 2px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+.hamburger::before { top: -8px; }
+.hamburger::after  { top:  8px; }
+
+@media (max-width: 768px) {
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    width: 200px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease;
+  }
+  .nav-menu_visible { transform: scaleY(1); }
+  .nav-toggle { display: block; }
+}
+
+/* =======================
+   Main Content
+======================= */
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  padding-top: 4rem; /* ensure content sits below navbar */
+  box-sizing: border-box;
+}
+
+/* =======================
+   Dashboard
+======================= */
+.dashboard-header h1 {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+.dashboard-header p {
+  color: #ddd;
+  margin-bottom: 1.5rem;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+.card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card h3 { margin-bottom: 0.75rem; font-size: 1.125rem; color: #2a5298; }
+.card p  { font-size: 1.75rem; font-weight: bold; color: #333; }
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* =======================
+   Tables (Vehicles, etc.)
+======================= */
+.table-container {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+th {
+  background: #2a5298;
+  color: #fff;
+}
+tr:nth-child(even) { background: #f9f9f9; }
+
+/* =======================
+   Profile Inline Edit
+======================= */
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 30px 40px;
+}
+.profile-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+.label { font-weight: bold; color: #444; }
+.value-view { color: #666; flex: 1; margin-left: 20px; }
+.value-edit {
+  flex: 1;
+  margin-left: 20px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: none;
+}
+.actions button {
+  margin-left: 0.5rem;
+}
+.edit-btn,
+.done-btn,
+.cancel-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.edit-btn:hover,
+.done-btn:hover,
+.cancel-btn:hover {
+  background-color: #0056b3;
+}
+.done-btn { background: #28a745; }
+.done-btn:hover { background: #1e7e34; }
+.cancel-btn { background: #dc3545; }
+.cancel-btn:hover { background: #c82333; }
+
+/* =======================
+   Forms (Login/Register)
+======================= */
+.form-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 4rem auto; /* center below navbar */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  text-align: center;
+}
+.form-container h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.75rem;
+}
+.form-container input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+.form-container input:focus {
+  border-color: #2a5298;
+  outline: none;
+}
+.form-container button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #2a5298;
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.form-container button:hover {
+  background: #1e3c72;
+}
+.msg {
+  display: block;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 0.25rem;
+  text-align: left;
+}
+.msg.success {
+  color: #155724;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+.msg.error {
+  color: #721c24;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+.switch {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+.switch a {
+  color: #2a5298;
+  text-decoration: none;
+  font-weight: bold;
+}
+.switch a:hover {
+  text-decoration: underline;
+}
+/* =======================
+   Buttons
+======================= */
+.btn-primary {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #2a5298;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: background 0.3s;
+}
+.btn-primary:hover {
+  background: #1e3c72;
+}
+
+/* Small variant */
+.btn-primary.small {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+#Text_title{
+  padding: 0.5rem 1rem;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  text-align: center;
+  font-size: 50px;
+  margin-top: -90px;
+}
+/* =======================
+   Search Form
+======================= */
+.search-form {
+  display: flex;
+  max-width: 400px;
+  margin: 1rem auto 2rem;
+}
+.search-form input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem 0 0 0.5rem;
+  font-size: 1rem;
+}
+.search-form button {
+  padding: 0.5rem 1rem;
+  background: #2a5298;
+  color: #fff;
+  border: none;
+  border-radius: 0 0.5rem 0.5rem 0;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.search-form button:hover {
+  background: #1e3c72;
+}
+
+/* =======================
+   Reserve Form
+======================= */
+.reserve-form {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.reserve-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.reserve-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+.reserve-form input[type="text"],
+.reserve-form input[type="datetime-local"] {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+.reserve-form input[type="number"],
+.reserve-form input[type="datetime-local"] {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.reserve-form input[disabled] {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #2a5298;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1rem;
+  margin-right: 0.5rem;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover {
+  background: #1e3c72;
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #ccc;
+  color: #333;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.btn-secondary:hover {
+  background: #aaa;
+}
+
+/* =======================
+   Reservation Success
+======================= */
+.success-container {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.success-msg {
+  color: #155724;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* btn-primary already defined; ensure it's visible here */
+
+
+/* ========== Vehicle Showcase ========== */
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+/* Optional: on small screens stack to one column */
+@media (max-width: 600px) {
+  .vehicle-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.vehicle-card {
+  background: #1d396b;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+  height:510px;
+}
+
+.vehicle-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.vehicle-card h3 {
+  font-size: 1.25rem;
+  margin: 0.75rem 0;
+  color: white;
+}
+
+.vehicle-card p {
+  margin: 0.25rem 0;
+  color: white;
+  font-size: 0.95rem;
+}
+
+.vehicle-card {
+  /* ensure this is already present or add it */
+  transition: transform 0.3s ease-in-out;
+}
+
+.vehicle-card:hover {
+  transform: scale(1.05);
+}
+
+
+.status.available {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status.unavailable {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Reserve Now button */
+.btn-reserve {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: #2a5298;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: background 0.3s;
+  font-size: 0.9rem;
+}
+.btn-reserve:hover {
+  background: #1e3c72;
+}
+

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}My Rentals – CarRentPro{% endblock %}
+{% block content %}
+<main>
+  <h2 id="Text_title">My Rentals</h2>
+
+  <div style="text-align:center; margin-top:2rem;">
+    <a href="{{ url_for('reserve_vehicles') }}" class="btn-primary">Rent a Vehicle</a>
+  </div>
+
+  <!-- Active Rentals -->
+  <section class="rent-section">
+    <h3 style="color: white;">Active Rent</h3>
+    {% if active %}
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Make</th><th>Model</th><th>Start</th><th>End</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in active %}
+            <tr>
+              <td>{{ r.make }}</td>
+              <td>{{ r.model }}</td>
+              <td>{{ r.start_datetime }}</td>
+              <td>{{ r.end_datetime or 'N/A' }}</td>
+              <td style="color: {% if r.status == 'reserved' %}green{% elif r.status == 'pending' %}#d4ac0d{% endif %}; font-weight: bold;">
+                {{ r.status.title() }}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p style="color: white; margin-bottom: 20px; margin-top: 5px">No active rentals.</p>
+    {% endif %}
+  </section>
+
+  <!-- Rental History -->
+  <section class="rent-section">
+    <h3 style="color: white;">History</h3>
+    {% if history %}
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Make</th><th>Model</th><th>Start</th><th>End</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in history %}
+            <tr>
+              <td>{{ r.make }}</td>
+              <td>{{ r.model }}</td>
+              <td>{{ r.start_datetime }}</td>
+              <td>{{ r.end_datetime or 'N/A' }}</td>
+              <td style="color: {% if r.status == 'rented' %}black{% endif %}; font-weight: bold;">
+                {{ r.status.title() }}
+              </td>
+              
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p style="color: white; margin-bottom: 20px; margin-top: 5px">No past rentals.</p>
+    {% endif %}
+  </section>
+</main>
+{% endblock %}

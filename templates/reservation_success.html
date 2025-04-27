@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Reservation Submitted – CarRentPro{% endblock %}
+
+{% block content %}
+<main>
+  <div class="success-container">
+    <p class="success-msg">
+      You have successfully applied for your reservation.  
+      Now, our admin will verify and accept your submission as soon as possible.
+    </p>
+    <a href="{{ url_for('my_rentals') }}" class="btn-primary">Return to My Rentals</a>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Home - CarRentPro{% endblock %}
+
+{% block content %}
+
+  <div class="dashboard">
+    <header class="dashboard-header">
+      {% if user %}
+        <h1>Welcome, {{ user.split('@')[0].title() }}!</h1>
+        <p>Have a look at our cars.</p>
+      {% endif %}
+    </header>
+
+    <section class="cards">
+      <!-- existing summary cards… -->
+    </section>
+
+    <!-- Vehicle Showcase -->
+    <section class="vehicle-grid">
+      {% for v in vehicles %}
+      <div class="vehicle-card">
+        <img src="{{ v.photo_link }}" alt="{{ v.make }} {{ v.model }}" />
+        <h3>{{ v.make }} {{ v.model }}</h3>
+        <p>
+          Status:
+          <span class="status {% if v.status=='available' %}available{% else %}unavailable{% endif %}">
+            {{ v.status.title() }}
+          </span>
+        </p>
+        <p>Odometer: {{ v.odometer_reading }} km</p>
+        <p>Rate: {{ v.rate_per_km }} $ per km</p>
+        {# Show Reserve Now button only if available #}
+        {% if v.status == 'available' %}
+        <a href="{{ url_for('reserve_vehicles') }}" class="btn-reserve">Reserve Now</a>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </section>
+  </div>
+
+{% endblock %}

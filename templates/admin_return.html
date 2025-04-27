@@ -1,0 +1,49 @@
+{% extends "admin_base.html" %}
+{% block title %}Return – CarRentPro Admin{% endblock %}
+{% block content %}
+  <h2>Return Section</h2>
+
+  <!-- Search Form -->
+  <form method="post" class="search-form">
+    <input
+      type="text"
+      name="search"
+      placeholder="Search name, email or phone"
+      value="{{ term }}" />
+    <button type="submit">Search</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Customer Name</th>
+        <th>Email</th>
+        <th>Vehicle</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Start Odo</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in returns %}
+      <tr>
+        <td>{{ r.user_name }}</td>
+        <td>{{ r.email }}</td>
+        <td>{{ r.make }} {{ r.model }}</td>
+        <td>{{ r.start_datetime }}</td>
+        <td>{{ r.end_datetime }}</td>
+        <td>{{ r.start_odometer }}</td>
+        <td>
+          <a href="{{ url_for('confirm_return', rental_id=r.rental_id) }}" class="btn-primary small">
+            Confirm Return
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+      {% if returns|length == 0 %}
+      <tr><td colspan="7">No cars pending return.</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endblock %}

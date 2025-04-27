@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Payments – CarRentPro{% endblock %}
+{% block content %}
+<main>
+  <h2 id="Text_title">Pay Using this QR</h2>
+
+  <!-- QR Code -->
+  <div style="text-align:center; margin:2rem 0;">
+    <img src="{{ qr_url }}" alt="Scan to pay" style="max-width:200px;">
+  </div>
+
+  <!-- Unpaid Rides Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Vehicle</th>
+          <th>Pickup</th>
+          <th>Return</th>
+          <th>Distance (km)</th>
+          <th>Amount ($)</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in payments %}
+        <tr>
+          <td>{{ p.make }} {{ p.model }}</td>
+          <td>{{ p.actual_pickup }}</td>
+          <td>{{ p.actual_return }}</td>
+          <td>{{ p.total_travelled }}</td>
+          <td>{{ "%.2f"|format(p.amount) }}</td>
+          <td>
+            <a href="{{ url_for('confirm_payment', rental_id=p.rental_id) }}"
+               class="btn-primary small">Paid?</a>
+          </td>
+        </tr>
+        {% endfor %}
+        {% if payments|length == 0 %}
+        <tr>
+          <td colspan="6" style="text-align:center">No unpaid rides.</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</main>
+{% endblock %}

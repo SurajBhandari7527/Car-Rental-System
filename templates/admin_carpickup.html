@@ -1,0 +1,55 @@
+{% extends "admin_base.html" %}
+{% block title %}Car Pick Up – CarRentPro Admin{% endblock %}
+{% block content %}
+  <h2>Car Pick Up</h2>
+
+  <!-- Search Form -->
+  <form method="post" class="search-form">
+    <input 
+      type="text" 
+      name="search" 
+      placeholder="Search by name, email or phone" 
+      value="{{ term }}" />
+    <button type="submit">Search</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Customer Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Vehicle</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in pickups %}
+      <tr>
+        <td>{{ p.user_name }}</td>
+        <td>{{ p.email }}</td>
+        <td>{{ p.contact }}</td>
+        <td>{{ p.start_datetime }}</td>
+        <td>{{ p.end_datetime }}</td>
+        <td>{{ p.make }} {{ p.model }}</td>
+        <td>
+          <form method="post" action="{{ url_for('confirm_rent', reservation_id=p.reservation_id) }}" style="display:inline">
+            <button type="submit" class="btn-green small">Confirm Rent</button>
+          </form>
+          <form method="post" action="{{ url_for('cancel_reservation', reservation_id=p.reservation_id) }}" style="display:inline; margin-left:0.5rem">
+            <button type="submit" class="btn-red small">Cancel</button>
+          </form>
+          
+        </td>
+      </tr>
+      {% endfor %}
+      {% if pickups|length == 0 %}
+      <tr>
+        <td colspan="7">No reservations pending pick up.</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Reserve Vehicles – CarRentPro{% endblock %}
+{% block content %}
+<main>
+  <h2 id="Text_title">Reserve a Vehicle</h2>
+
+  <!-- Search Form -->
+  <form method="post" class="search-form">
+    <input type="text" name="search" placeholder="Search make or model…" value="{{ term }}">
+    <button type="submit">Search</button>
+  </form>
+
+  <!-- Vehicle List -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Make</th>
+          <th>Model</th>
+          <th>Year</th>
+          <th>Plate</th>
+          <th>Rate Per km($)</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in vehicles %}
+        <tr>
+          <td>{{ v.make }}</td>
+          <td>{{ v.model }}</td>
+          <td>{{ v.year }}</td>
+          <td>{{ v.license_plate }}</td>
+          <td>${{ "%.2f"|format(v.rate_per_km) }}</td>
+          <td>
+            <a href="{{ url_for('reserve_vehicle_action', vehicle_id=v.vehicle_id) }}" 
+               class="btn-primary small">
+              Reserve
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+{% endblock %}

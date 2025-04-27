@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Profile - CarRentPro{% endblock %}
+{% block content %}
+<div class="container">
+  <h2>User Profile</h2>
+
+  <!-- Repeat this block for each field -->
+  <div class="profile-item" data-field="name">
+    <div class="label">Name:</div>
+    <div class="value-view">{{ user.name }}</div>
+    <input class="value-edit" type="text" value="{{ user.name }}" style="display:none"/>
+    <div class="actions">
+      <button class="edit-btn">Edit</button>
+      <button class="done-btn" style="display:none">Done</button>
+      <button class="cancel-btn" style="display:none">Cancel</button>
+    </div>
+  </div>
+
+  <div class="profile-item" data-field="email">
+    <div class="label">Email:</div>
+    <div class="value-view">{{ user.email }}</div>
+    <input class="value-edit" type="email" value="{{ user.email }}" style="display:none"/>
+    <div class="actions">
+      <button class="edit-btn">Edit</button>
+      <button class="done-btn" style="display:none">Done</button>
+      <button class="cancel-btn" style="display:none">Cancel</button>
+    </div>
+  </div>
+
+  <div class="profile-item" data-field="contact">
+    <div class="label">Phone:</div>
+    <div class="value-view">{{ user.contact }}</div>
+    <input class="value-edit" type="tel" value="{{ user.contact }}" style="display:none"/>
+    <div class="actions">
+      <button class="edit-btn">Edit</button>
+      <button class="done-btn" style="display:none">Done</button>
+      <button class="cancel-btn" style="display:none">Cancel</button>
+    </div>
+  </div>
+
+  <div class="profile-item" data-field="address">
+    <div class="label">Address:</div>
+    <div class="value-view">{{ user.address }}</div>
+    <input class="value-edit" type="text" value="{{ user.address }}" style="display:none"/>
+    <div class="actions">
+      <button class="edit-btn">Edit</button>
+      <button class="done-btn" style="display:none">Done</button>
+      <button class="cancel-btn" style="display:none">Cancel</button>
+    </div>
+  </div>
+
+  <!-- You can skip inline editing for password or handle separately -->
+</div>
+
+<script>
+document.querySelectorAll('.profile-item').forEach(item => {
+  const view = item.querySelector('.value-view');
+  const edit = item.querySelector('.value-edit');
+  const btnEdit = item.querySelector('.edit-btn');
+  const btnDone = item.querySelector('.done-btn');
+  const btnCancel = item.querySelector('.cancel-btn');
+  const field = item.dataset.field;
+
+  btnEdit.addEventListener('click', () => {
+    view.style.display = 'none';
+    edit.style.display = 'block';
+    btnEdit.style.display = 'none';
+    btnDone.style.display = 'inline-block';
+    btnCancel.style.display = 'inline-block';
+  });
+
+  btnCancel.addEventListener('click', () => {
+    edit.value = view.textContent.trim();
+    view.style.display = 'block';
+    edit.style.display = 'none';
+    btnEdit.style.display = 'inline-block';
+    btnDone.style.display = 'none';
+    btnCancel.style.display = 'none';
+  });
+
+  btnDone.addEventListener('click', () => {
+    const newValue = edit.value.trim();
+    fetch('/update_profile', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ field, value: newValue })
+    })
+    .then(resp => resp.json())
+    .then(data => {
+      if (data.success) {
+        view.textContent = newValue;
+      } else {
+        alert('Update failed: ' + data.error);
+      }
+      // toggle back to view mode
+      view.style.display = 'block';
+      edit.style.display = 'none';
+      btnEdit.style.display = 'inline-block';
+      btnDone.style.display = 'none';
+      btnCancel.style.display = 'none';
+    })
+    .catch(err => {
+      alert('Network error');
+      console.error(err);
+    });
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <div class="form-container">
+    <h2>Welcome Back</h2>
+    {% if message %}
+      <p class="msg {{ msg_type }}">{{ message }}</p>
+    {% endif %}
+    <form action="/comp_login" method="post">
+      <input type="email"    name="email"    placeholder="Email"    required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Log In</button>
+    </form>
+    <p class="switch">New here? <a href="/register">Register</a></p>
+  </div>
+</body>
+</html>
