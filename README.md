@@ -31,6 +31,7 @@ A full-stack web application built with **Python (Flask)** and **MySQL** to mana
 ## 📊 Database Schema
 
 To run this project, ensure your MySQL database (`db_for_reg`) has the following tables:
+<img width="1038" height="898" alt="image" src="https://github.com/user-attachments/assets/b9f0a145-c29c-49dc-9ff8-48b20965d4bb" />
 
 ```sql
 -- 1. Users Table
